@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        ul,li{
+            list-style: none;
+        }
+        .slide{
+            width: 100%;
+            height: 400px;
+            position: relative;
+            overflow: hidden;
+        }
+        .slide ul{
+            display: flex;
+            width: 300%;
+            height: 100%;
+            background-color: #EEEEEE;
+            transition: 1s;
+
+        }
+        .slide ul li{
+            width: 33.333%;
+        }
+        .slide li:nth-child(1){
+            background-color: #FAA;
+        }
+        .slide li:nth-child(2){
+            background-color: #AFA;
+        }
+        .slide li:nth-child(3){
+            background-color: #AAF;
+        }
+
+        #pos1:checked ~ ul{
+            margin-left: 0;
+        }
+        #pos2:checked ~ ul{
+            margin-left: -100%;
+        }
+        #pos3:checked ~ ul{
+            margin-left: -200%;
+        }
+
+        #pos1:checked ~ .bullet label:nth-child(1),
+        #pos2:checked ~ .bullet label:nth-child(2),
+        #pos3:checked ~ .bullet label:nth-child(3){background-color: #000;}
+
+        .bullet{
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            text-align: center;
+        }
+        .bullet label{
+            display:  inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 10px;
+            font-size: 0;
+            background: rgba(0, 0, 0, 0.3);
+        }
+        .slide input[type="radio"]{display: none;}
+
+        .layer{
+            display: none;
+            position: fixed;
+            background-color: rgba(0, 0, 0, 0.3);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+        .layer:target{
+            display: flex;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+        .layer .box{
+            position: relative;
+
+            min-width: 200px;
+            min-height: 100px;
+
+            padding: 50px;
+            background-color: white;
+        }
+        .layer .box .closer{
+            position: absolute;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            padding: 10px;
+
+            width: 20px;
+            height: 20px;
+
+            right: 0;
+            top: 0;
+
+            background-color: #F66;
+            color: white;
+
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="slide">
+        <input type="radio" name="pos" id="pos1" checked>
+        <input type="radio" name="pos" id="pos2">
+        <input type="radio" name="pos" id="pos3">
+        <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+        <p class="bullet">
+            <label for="pos1">1</label>
+            <label for="pos2">2</label>
+            <label for="pos3">3</label>
+        </p>
+    </div>
+    <div id="p1" class="layer">
+        <div class="box">
+            <a href="#" class="closer">X</a>
+            Hello World! P1
+        </div>
+    </div>
+    <div id="p2" class="layer">
+        <div class="box">
+            <a href="#" class="closer">X</a>
+            Hello World! P2
+        </div>
+    </div>
+    <div id="p3" class="layer">
+        <div class="box">
+            <a href="#" class="closer">X</a>
+            Hello World! P3
+        </div>
+    </div>
+    <div id="p4" class="layer">
+        <div class="box">
+            <a href="#" class="closer">X</a>
+            Hello World! P4
+        </div>
+    </div>
+    <a href="#p1">P1</a>
+    <a href="#p1">P2</a>
+    <a href="#p1">P3</a>
+    <a href="#p1">P4</a>
+</body>
+
+</html>
