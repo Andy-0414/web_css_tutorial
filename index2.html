@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        ul,li{
+            list-style: none;
+        }
+        .slide {
+            width: 100vw;
+            height: 100vh;
+            margin: 0 auto;
+
+            overflow: hidden;
+        }
+        .slide ul{
+            width: 0;
+            display: flex;
+            transition: 1s;
+        }
+        .slide li{
+            width: 0;
+            height: 100vh;
+            background-color: #000;
+        }
+        .slide li:nth-child(2n){
+            background-color: #111;
+        }
+        .slide li:nth-child(3n){
+            background-color: #222;
+        }
+        .slide li:nth-child(4n){
+            background-color: #333;
+        }
+        .slide li:nth-child(5n){
+            background-color: #444;
+        }
+        .slide li:nth-child(6n){
+            background-color: #555;
+        }
+        .slide li:nth-child(7n){
+            background-color: #666;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="slide">
+        <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+    <script>
+    window.onload = function(){
+        var pos = 0;
+        var arrow = 1;
+        var len = document.querySelectorAll(".slide li").length;
+        document.querySelector('.slide ul').style.width = len * 100 + "%"
+        document.querySelectorAll('.slide li').forEach(x=>{
+            x.style.width = `calc(100% / ${len})`
+        })
+        setInterval(function(){
+            document.querySelector('.slide ul').style.marginLeft = -pos * 100 + "%"
+            pos = pos+arrow
+            if (pos <= 0 || pos >= len - 1) arrow *= -1
+        },1000)
+    }
+    </script>
+</body>
+
+</html>

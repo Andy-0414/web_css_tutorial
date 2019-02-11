@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Slide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        ul,
+        li {
+            list-style: none;
+            transition: 1s;
+        }
+
+        .slide {
+            width: 1000px;
+            height: 300px;
+
+            margin: 0 auto;
+
+            overflow: hidden;
+        }
+
+        .slide li:nth-child(1) {
+            background-color: #FAA;
+        }
+
+        .slide li:nth-child(2) {
+            background-color: #AFA;
+        }
+
+        .slide li:nth-child(3) {
+            background-color: #AAF;
+        }
+
+        .slide li:nth-child(4) {
+            background-color: #FFA;
+        }
+    </style>
+</head>
+
+<body>
+    <div data-type="left2right" class="slide">
+        <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+
+    <div data-type="top2btm" class="slide">
+        <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+
+    <div data-type="fade" class="slide">
+        <ul>
+            <li class="active"></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+
+    <script>
+        const all = ele => document.querySelectorAll(ele)
+        const one = ele => document.querySelector(ele)
+
+        var customSlider = customSlider || {};
+
+        (() => {
+            const Slide = class {
+                constructor(ele) {
+                    this.pos = 0
+                    this.h = ele.clientHeight
+                    this.target = ele.children[0]
+                    this.len = this.target.children.length
+                    this.setTime = ele.dataset.playtime
+                    this.platTime = ele.dataset.settime
+                    this.styleSet()
+                    this.next()
+                    console.log("CREATE")
+                }
+                styleSet() { }
+                next() {
+                }
+                static init() {
+                    all('.slide').forEach(x => {
+                        const type = x.dataset.type
+                        new slideType[type](x)
+                    })
+                }
+            }
+
+            const SlideLeft2Right = class extends Slide {
+                constructor(ele) { super(ele) }
+                styleSet() {
+                    Array.from(this.target.children).forEach(x => {
+                        x.style.width = `100%`
+                        x.style.height = `100%`
+                    })
+                    this.target.style.cssText = `
+                        width:${100 * this.len}%; height: 100%; display:flex;
+                    `
+                }
+                next() {
+                    setInterval(() => {
+                        this.pos = (this.pos + 1) % this.len
+                        this.target.style.marginLeft = `${-this.pos * 100}%`
+                    }, 1000)
+                }
+            }
+            const SlideTop2Btm = class extends Slide {
+                constructor(ele) { super(ele)}
+                styleSet() {
+                    Array.from(this.target.children).forEach(x => {
+                        x.style.width = '100%'
+                        x.style.height = `${100 / this.len}%`
+                    })
+                    this.target.style.cssText = `
+                        width: 100%; height: ${100 * this.h}px;
+                    `
+                }
+                next() {
+                    setInterval(() => {
+                        this.pos = (this.pos + 1) % this.len
+                        this.target.style.marginTop = `${-this.pos * this.h}px`
+                    }, 1000)
+                }
+
+            }
+            const SlideFade = class extends Slide {
+                constructor(ele) { super(ele) }
+                styleSet() {
+                    this.target.style.cssText = `
+                        width:${100 * this.len}%; height: 100%; display:flex;
+                    `
+                }
+                next() {
+                    setInterval(() => {
+                        this.pos = (this.pos + 1) % this.len
+                        this.target.style.marginLeft = `${-this.pos * 100}%`
+                    }, 1000)
+                }
+            }
+            const slideType = {
+                left2right: SlideLeft2Right,
+                top2btm: SlideTop2Btm,
+                fade: SlideFade
+            }
+
+            customSlider.slide = Slide
+        })()
+        customSlider.slide.init()
+
+
+        // const slideLeft2Right = () => {
+        //     let pos = 0
+        //     const len = all('.slide.left2right li').length
+        //     const target = one('.slide.left2right ul')
+        //     target.style.cssText = `width:${100*len}%; height: 100%; display:flex;`
+        //     Array.from(target.children).forEach(x => {
+        //         x.style.width = `100%`
+        //         x.style.height = `100%`
+        //     })
+        //     setInterval(() => {
+        //         pos = (pos + 1) % len
+        //         one('.slide.left2right ul').style.marginLeft = `${-pos * 100}%`
+        //     }, 1000)
+        // }
+
+        // const slideTop2Btm = () => {
+        //     let pos = 0
+        //     const len = all('.slide.top2btm li').length
+        //     const h = one('.slide').clientHeight
+        //     const target = one('.slide.top2btm ul')
+        //     target.style.cssText = `height:${100 * len}%; width: 100%`
+        //     Array.from(target.children).forEach(x=>{
+        //         x.style.height = `${100/len}%`
+        //     })
+        //     setInterval(() => {
+        //         pos = (pos + 1) % len
+        //         target.style.marginTop = `${-pos * h}px`
+        //     }, 1000)
+        // }
+
+        // const slideFade = () => {
+        //     let pos = 0
+        //     const arr = all('.slide.fade li')
+        //     const len = arr.length
+        //     const target = one('.slide.fade ul')
+        //     target.style.cssText = `height:${100 * len}%; position: relative;`
+        //     arr.forEach(x => {
+        //         x.style.cssText=`position:absolute; width: 100%; height: 100%; opacity:0.5;`
+        //     })
+        //     setInterval(() => {
+        //         pos = (pos + 1) % len
+        //         one('.slide.fade li.active').className = ''
+        //         arr[pos].className = 'active'
+
+
+        //     }, 1000)
+        // }
+
+        // window.onload = () => {
+        //     slideLeft2Right()
+        //     slideTop2Btm()
+        //     slideFade()
+        // }
+    </script>
+</body>
+
+</html>
